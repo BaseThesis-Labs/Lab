@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { SCENES, type SceneFn } from './ascii-scenes';
+import { SCENES, type SceneFn, type SceneCell } from './ascii-scenes';
 
 interface Props {
   className?: string;
@@ -16,30 +16,16 @@ const MOUSE_RADIUS = 0.15;
 const MOUSE_LERP = 0.08;
 const MOUSE_INTENSITY_BOOST = 0.3;
 const MOUSE_DENSE_RATIO = 0.05;
-const MOUSE_DENSE_CHARS = '#@$';
+const MOUSE_DENSE_CHARS = '#@$%&';
 
-const COLOR_ACCENT = [232, 217, 190] as const;
-const COLOR_BRIGHT = [237, 237, 237] as const;
-const COLOR_MUTED  = [115, 115, 115] as const;
-
-function intensityToColor(intensity: number): string {
-  let r: number, g: number, b: number, a: number;
-
-  if (intensity < 0.15) {
-    [r, g, b] = COLOR_MUTED;
-    a = 0.1 + intensity * 0.67;
-  } else if (intensity > 0.75) {
-    const t = (intensity - 0.75) / 0.25;
-    r = COLOR_ACCENT[0] + (COLOR_BRIGHT[0] - COLOR_ACCENT[0]) * t;
-    g = COLOR_ACCENT[1] + (COLOR_BRIGHT[1] - COLOR_ACCENT[1]) * t;
-    b = COLOR_ACCENT[2] + (COLOR_BRIGHT[2] - COLOR_ACCENT[2]) * t;
-    a = 0.7 + t * 0.3;
-  } else {
-    [r, g, b] = COLOR_ACCENT;
-    a = 0.15 + (intensity - 0.15) * (0.8 - 0.15) / (0.75 - 0.15);
-  }
-
-  return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},${a.toFixed(3)})`;
+function cellToStyle(intensity: number, r: number, g: number, b: number): string {
+  // At high intensity, blend toward white for glow effect
+  const whiteBlend = Math.max(0, (intensity - 0.65) / 0.35);
+  const fr = r + (255 - r) * whiteBlend * 0.5;
+  const fg = g + (255 - g) * whiteBlend * 0.5;
+  const fb = b + (255 - b) * whiteBlend * 0.5;
+  const alpha = Math.min(1, intensity * 1.1);
+  return `rgba(${Math.round(fr)},${Math.round(fg)},${Math.round(fb)},${alpha.toFixed(3)})`;
 }
 
 export function AsciiCanvas({ className }: Props) {
@@ -93,6 +79,19 @@ export function AsciiCanvas({ className }: Props) {
       return { current: SCENES[sceneIdx], next: null, blend: 0 };
     }
 
+    function blendCells(a: SceneCell, b: SceneCell, blend: number): SceneCell {
+      const w1 = 1 - blend;
+      const w2 = blend;
+      const useB = b.intensity * w2 > a.intensity * w1;
+      return {
+        char: useB ? b.char : a.char,
+        intensity: a.intensity * w1 + b.intensity * w2,
+        r: Math.round(a.r * w1 + b.r * w2),
+        g: Math.round(a.g * w1 + b.g * w2),
+        b: Math.round(a.b * w1 + b.b * w2),
+      };
+    }
+
     function render(now: number) {
       if (!visible) return;
 
@@ -119,6 +118,7 @@ export function AsciiCanvas({ className }: Props) {
         return;
       }
 
+      // Ease mouse
       if (mouse.active) {
         mouse.x += (mouse.tx - mouse.x) * MOUSE_LERP;
         mouse.y += (mouse.ty - mouse.y) * MOUSE_LERP;
@@ -131,6 +131,7 @@ export function AsciiCanvas({ className }: Props) {
         ? { current: SCENES[0], next: null, blend: 0 }
         : getScenes(time);
 
+      // Clear
       ctx!.clearRect(0, 0, cw, ch);
 
       const fontSize = Math.round(11 * dpr);
@@ -144,21 +145,13 @@ export function AsciiCanvas({ className }: Props) {
 
           let cell = current(nx, ny, time);
 
+          // Crossfade with next scene (blend colors too)
           if (next && blend > 0) {
             const nextCell = next(nx, ny, time);
-            if (nextCell.intensity * blend > cell.intensity * (1 - blend)) {
-              cell = {
-                char: nextCell.char,
-                intensity: cell.intensity * (1 - blend) + nextCell.intensity * blend,
-              };
-            } else {
-              cell = {
-                char: cell.char,
-                intensity: cell.intensity * (1 - blend) + nextCell.intensity * blend,
-              };
-            }
+            cell = blendCells(cell, nextCell, blend);
           }
 
+          // Mouse influence
           if (mouse.fadeOut > 0 && mouse.x >= 0) {
             const mdx = nx - mouse.x;
             const mdy = (ny - mouse.y) * 1.4;
@@ -167,8 +160,15 @@ export function AsciiCanvas({ className }: Props) {
             if (mDist < MOUSE_RADIUS) {
               const influence = (1 - mDist / MOUSE_RADIUS) * mouse.fadeOut;
 
+              // Intensity boost
               cell.intensity = Math.min(1, cell.intensity + MOUSE_INTENSITY_BOOST * influence);
 
+              // Color shift toward white
+              cell.r = Math.min(255, cell.r + Math.round(50 * influence));
+              cell.g = Math.min(255, cell.g + Math.round(50 * influence));
+              cell.b = Math.min(255, cell.b + Math.round(50 * influence));
+
+              // Dense character override for closest chars
               if (mDist < MOUSE_RADIUS * MOUSE_DENSE_RATIO) {
                 const denseIdx = Math.floor(Math.random() * MOUSE_DENSE_CHARS.length);
                 cell.char = MOUSE_DENSE_CHARS[denseIdx];
@@ -176,9 +176,9 @@ export function AsciiCanvas({ className }: Props) {
             }
           }
 
-          if (cell.intensity < 0.02) continue;
+          if (cell.intensity < 0.015) continue;
 
-          ctx!.fillStyle = intensityToColor(cell.intensity);
+          ctx!.fillStyle = cellToStyle(cell.intensity, cell.r, cell.g, cell.b);
           ctx!.fillText(cell.char, c * cellW, r * cellH);
         }
       }
@@ -186,6 +186,7 @@ export function AsciiCanvas({ className }: Props) {
       if (!reduced) raf = requestAnimationFrame(render);
     }
 
+    // Event handlers
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas!.getBoundingClientRect();
       mouse.tx = (e.clientX - rect.left) / rect.width;
@@ -226,6 +227,7 @@ export function AsciiCanvas({ className }: Props) {
       }
     };
 
+    // Attach listeners
     const el = canvas;
     el.addEventListener('mousemove', onMouseMove, { passive: true });
     el.addEventListener('mouseleave', onMouseLeave);
@@ -235,6 +237,7 @@ export function AsciiCanvas({ className }: Props) {
     document.addEventListener('visibilitychange', onVisibility);
     window.addEventListener('resize', resize);
 
+    // Start
     resize();
     raf = requestAnimationFrame(render);
 
