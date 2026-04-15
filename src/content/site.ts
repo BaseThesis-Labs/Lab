@@ -5,7 +5,7 @@ export const site = {
     year: '2026',
     coords: '37.7749° N / 122.4194° W',
     location: 'San Francisco · Remote',
-    email: 'contact@basethesis.xyz',
+    email: 'engg@basethesis.com',
   },
 
   nav: [
@@ -17,9 +17,9 @@ export const site = {
 
   hero: {
     eyebrow: 'Est. 2026 · Frontier Research',
-    headline: 'A frontier research lab building the substrate for the next computing paradigm.',
-    sub: 'We pursue a small number of high-conviction bets across intelligence, interface, and emergence — and turn them into products and companies.',
-    cta: { label: 'Apply to the Fund', href: '#fund' },
+    headline: 'A frontier lab owning the best companies and deploying intelligence.',
+    sub: 'We acquire profitable companies and run them with frontier intelligence. We take ownership and deploy intelligence to operate inside the business end to end. The results are either measurable or the intelligence is worthless.',
+    cta: { label: 'Talk to Us', href: 'https://calendar.app.google/HkL3MsDrBJUKhf8h7' },
     secondary: { label: 'Read the thesis', href: '#manifesto' },
   },
 
@@ -87,17 +87,36 @@ export const site = {
   },
 
   fund: {
-    label: '03 / Fund',
+    label: '03 / Thesis',
+    headline: 'Invest. Transform. Scale.',
     pitch:
-      'The BaseThesis Fund backs a small cohort of founders-in-residence each year. You arrive with a thesis. You leave with a company. In between you get capital, compute, and a room full of people who have done it before.',
-    stats: [
-      { n: 250, prefix: '$', suffix: 'K', v: 'Initial cheque' },
-      { n: 6, v: 'Founders per cohort' },
-      { n: 12, suffix: ' wk', v: 'Residency program' },
-      { n: 7, suffix: '%', v: 'Target equity' },
-    ],
-    cta: { label: 'Apply — Cohort 02', href: 'mailto:founders@basethesis.xyz' },
-    deadline: 'Applications close 15 June 2026',
+      'BaseThesis is an AI-driven value creation company. We invest in profitable, cash-flow generating businesses — often in traditional or under-digitized sectors — and transform them end-to-end using frontier AI.',
+    sub: 'While most AI innovation is concentrated in tech-native companies, the biggest value creation opportunity lies in transforming existing businesses. BaseThesis is positioned at this intersection.',
+    model: {
+      title: 'Our Model',
+      steps: [
+        { label: 'Identify', body: 'Target profitable mid-sized businesses with strong fundamentals, steady cash flows, and low technological adoption.' },
+        { label: 'Invest', body: 'Take a strategic ownership stake and work closely with leadership teams to align on transformation goals.' },
+        { label: 'Transform', body: 'Deploy AI operating systems across the business — re-architect workflows, decision-making, and execution.' },
+        { label: 'Scale', body: 'Unlock new growth and efficiency levers. Build long-term operating leverage through compounding AI advantage.' },
+      ],
+    },
+    lab: {
+      title: 'The Core: AI Research & Labs',
+      body: 'At the heart of BaseThesis is a dedicated AI Research & Labs team that tracks frontier AI developments, experiments with new models and architectures, builds reusable AI infrastructure, and designs systems that transform real-world operations.',
+      purpose: 'To translate cutting-edge AI into practical, deployable systems that unlock value in businesses we partner with.',
+    },
+    traction: {
+      title: 'Current Traction',
+      items: [
+        'Built and launched Synth — an AI employee for small businesses, our first expression of AI product capability',
+        'Actively investing in a company in the financial services space (accounting and legal)',
+        'Deploying AI workflows and systems to unlock operational efficiency and growth',
+      ],
+    },
+    vision:
+      'A portfolio of AI-transformed businesses, a shared AI infrastructure layer across companies, and a compounding advantage driven by our Research & Labs engine. AI is not just a tool — it is the core driver of value creation.',
+    cta: { label: 'Talk to Us', href: 'https://calendar.app.google/HkL3MsDrBJUKhf8h7' },
   },
 
   workWithUs: {
@@ -129,19 +148,14 @@ export const site = {
       },
     ],
     team: [
-      ['A. Vasquez', 'R. Chen'],
-      ['M. Okafor', 'S. Lindqvist'],
-      ['J. Tanaka', 'P. Moreau'],
-      ['K. Abadi', 'L. Ferretti'],
-    ],
-    backgrounds: [
-      'DeepMind', 'MIT', 'OpenAI', 'Stanford', 'CERN', 'Meta FAIR',
-      'Berkeley', 'Apple', 'ETH Zürich', 'Anthropic', 'NASA JPL', 'Stripe',
+      ['Raveen Sastry', 'Dhimant Parekh'],
+      ['Sarthak Kapil', 'Siddhant Saxena'],
+      ['Ria Picardo', 'Manoj Abrahm'],
     ],
     hiring: {
       statement:
         'We need researchers and engineers with depth in: ML systems, distributed computing, compilers, HCI, and applied mathematics.',
-      note: 'Remote-first · San Francisco HQ · Visa sponsorship available',
+      note: 'Bangalore, India',
     },
   },
 
@@ -166,9 +180,8 @@ export const site = {
       {
         title: 'Elsewhere',
         links: [
-          { label: 'X', href: 'https://x.com' },
-          { label: 'GitHub', href: 'https://github.com' },
-          { label: 'arXiv', href: 'https://arxiv.org' },
+          { label: 'X', href: 'https://x.com/Basethesislabs' },
+          { label: 'LinkedIn', href: 'https://www.linkedin.com/company/basethesis-labs/' },
         ],
       },
     ],
