@@ -127,7 +127,7 @@ export const site = {
     pitch:
       'We are assembling a small, world-class team with the expertise needed to build groundbreaking, scalable systems. Our team includes leading researchers, infrastructure engineers, and product builders.',
     cta: 'If you have aligned expertise and are excited by our mission, please get in touch.',
-    applyHref: 'mailto:careers@basethesis.xyz',
+    applyHref: 'https://binary.so/YBa7Dak',
     applyLabel: 'Get in touch',
     pillars: [
       {
