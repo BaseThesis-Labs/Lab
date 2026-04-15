@@ -79,10 +79,10 @@ function wchar(w: number, seed: number): string {
 // Palette: deep amber → gold → bright white
 // ════════════════════════════════════════════════════════════════════════
 
-const DNA_BG:     readonly number[] = [120, 85, 40];
-const DNA_STRAND: readonly number[] = [255, 210, 100];
-const DNA_RUNG:   readonly number[] = [255, 130, 160];
-const DNA_BRIGHT: readonly number[] = [255, 245, 200];
+const DNA_BG:     readonly number[] = [160, 115, 55];
+const DNA_STRAND: readonly number[] = [255, 220, 110];
+const DNA_RUNG:   readonly number[] = [255, 140, 170];
+const DNA_BRIGHT: readonly number[] = [255, 250, 215];
 
 const NUCLEOTIDES = 'AATTCCGGTTAACCGG{}[]()<>|/\\:;=-~+';
 
@@ -94,7 +94,7 @@ export const dnaHelix: SceneFn = (nx, ny, time) => {
   // ── Background: scrolling nucleotide field ──
   const scrollY = ny + time * 0.02;
   const bgChar = NUCLEOTIDES[ihash(col, Math.floor(scrollY * 55)) % NUCLEOTIDES.length];
-  const bgNoise = 0.08 + 0.06 * noise2(nx * 12 + time * 0.3, ny * 10);
+  const bgNoise = 0.12 + 0.08 * noise2(nx * 12 + time * 0.3, ny * 10);
 
   // ── Multiple helix strands at different depths ──
   let bestIntensity = bgNoise;
@@ -183,10 +183,10 @@ export const dnaHelix: SceneFn = (nx, ny, time) => {
 // Palette: deep navy → electric blue → cyan → white
 // ════════════════════════════════════════════════════════════════════════
 
-const NN_DEEP:   readonly number[] = [15, 40, 80];
-const NN_BLUE:   readonly number[] = [40, 100, 200];
-const NN_CYAN:   readonly number[] = [80, 210, 255];
-const NN_WHITE:  readonly number[] = [220, 245, 255];
+const NN_DEEP:   readonly number[] = [25, 55, 110];
+const NN_BLUE:   readonly number[] = [55, 130, 225];
+const NN_CYAN:   readonly number[] = [100, 225, 255];
+const NN_WHITE:  readonly number[] = [230, 250, 255];
 
 const MATRIX_CHARS = '01001101001011100110><[]{}|:;+=-~';
 
@@ -213,7 +213,7 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
   // ── Background: pulsing activation field ──
   const activation = fbm(nx * 6 + time * 0.4, ny * 5 - time * 0.3, 3);
   const wave = 0.5 + 0.5 * Math.sin(nx * 15 + ny * 10 + time * 2 + activation * 6);
-  const bgI = 0.07 + activation * 0.12 + wave * 0.04;
+  const bgI = 0.10 + activation * 0.16 + wave * 0.06;
   const bgChar = MATRIX_CHARS[h % MATRIX_CHARS.length];
   const [bgR, bgG, bgB] = lerpC(...NN_DEEP, ...NN_BLUE, activation);
 
@@ -308,10 +308,10 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
 // Palette: deep teal → emerald green → bright lime → white
 // ════════════════════════════════════════════════════════════════════════
 
-const WV_DEEP:   readonly number[] = [10, 60, 55];
-const WV_TEAL:   readonly number[] = [30, 150, 130];
-const WV_GREEN:  readonly number[] = [80, 230, 140];
-const WV_BRIGHT: readonly number[] = [180, 255, 210];
+const WV_DEEP:   readonly number[] = [20, 80, 70];
+const WV_TEAL:   readonly number[] = [45, 175, 150];
+const WV_GREEN:  readonly number[] = [100, 245, 155];
+const WV_BRIGHT: readonly number[] = [200, 255, 225];
 
 export const waveInterference: SceneFn = (nx, ny, time) => {
   const h = ihash(Math.floor(nx * 80), Math.floor(ny * 55));
@@ -371,7 +371,7 @@ export const waveInterference: SceneFn = (nx, ny, time) => {
   } else {
     // Destructive trough — still visible, just dim
     const w = wave / 0.25;
-    intensity = 0.06 + w * 0.06;
+    intensity = 0.09 + w * 0.07;
     char = '.,:;'[h % 4];
     [cr, cg, cb] = WV_DEEP as unknown as [number, number, number];
   }
@@ -388,10 +388,10 @@ export const waveInterference: SceneFn = (nx, ny, time) => {
 // Palette: deep wine → rose → pink → bright white-pink
 // ════════════════════════════════════════════════════════════════════════
 
-const CR_DEEP:   readonly number[] = [80, 30, 55];
-const CR_ROSE:   readonly number[] = [210, 100, 140];
-const CR_PINK:   readonly number[] = [255, 160, 200];
-const CR_BRIGHT: readonly number[] = [255, 220, 240];
+const CR_DEEP:   readonly number[] = [110, 45, 70];
+const CR_ROSE:   readonly number[] = [230, 115, 155];
+const CR_PINK:   readonly number[] = [255, 175, 215];
+const CR_BRIGHT: readonly number[] = [255, 230, 245];
 
 export const molecularLattice: SceneFn = (nx, ny, time) => {
   const h = ihash(Math.floor(nx * 80), Math.floor(ny * 55));
@@ -461,9 +461,9 @@ export const molecularLattice: SceneFn = (nx, ny, time) => {
   // ── Background: electron density field ──
   if (bestI < 0.08) {
     const density = fbm(rx * 4 + time * 0.15, ry * 4 - time * 0.1, 2);
-    bestI = 0.06 + density * 0.08;
-    bestChar = wchar(density * 0.25, h);
-    const [cr, cg, cb] = lerpC(...CR_DEEP, ...CR_ROSE, density * 0.4);
+    bestI = 0.09 + density * 0.12;
+    bestChar = wchar(density * 0.3, h);
+    const [cr, cg, cb] = lerpC(...CR_DEEP, ...CR_ROSE, density * 0.5);
     bestR = cr; bestG = cg; bestB = cb;
   }
 
@@ -476,11 +476,11 @@ export const molecularLattice: SceneFn = (nx, ny, time) => {
 // Palette: deep indigo → violet → lavender → white
 // ════════════════════════════════════════════════════════════════════════
 
-const QM_DEEP:    readonly number[] = [25, 15, 65];
-const QM_VIOLET:  readonly number[] = [130, 100, 210];
-const QM_LAV:     readonly number[] = [190, 170, 255];
-const QM_BRIGHT:  readonly number[] = [240, 230, 255];
-const QM_NUCLEUS: readonly number[] = [255, 220, 180];
+const QM_DEEP:    readonly number[] = [40, 25, 90];
+const QM_VIOLET:  readonly number[] = [155, 120, 230];
+const QM_LAV:     readonly number[] = [210, 190, 255];
+const QM_BRIGHT:  readonly number[] = [245, 240, 255];
+const QM_NUCLEUS: readonly number[] = [255, 230, 190];
 
 interface Orbit { a: number; b: number; tilt: number; speed: number; phase: number; }
 
@@ -503,9 +503,9 @@ export const orbitalPaths: SceneFn = (nx, ny, time) => {
   const psi = fbm(nx * 5 + time * 0.2, ny * 5 - time * 0.15, 3);
   const radial = Math.exp(-nucDist * 2.5);
   const bgDensity = (psi * 0.6 + radial * 0.4);
-  let bestI = 0.06 + bgDensity * 0.15;
-  let bestChar = wchar(bgDensity * 0.3, h);
-  let [bestR, bestG, bestB] = lerpC(...QM_DEEP, ...QM_VIOLET, bgDensity * 0.5);
+  let bestI = 0.09 + bgDensity * 0.18;
+  let bestChar = wchar(bgDensity * 0.35, h);
+  let [bestR, bestG, bestB] = lerpC(...QM_DEEP, ...QM_VIOLET, bgDensity * 0.6);
 
   // ── Orbital shells (probability density near each orbit) ──
   for (const orb of ORBITS) {

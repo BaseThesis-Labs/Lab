@@ -19,12 +19,14 @@ const MOUSE_DENSE_RATIO = 0.05;
 const MOUSE_DENSE_CHARS = '#@$%&';
 
 function cellToStyle(intensity: number, r: number, g: number, b: number): string {
+  // Boost intensity curve — lift everything brighter
+  const boosted = Math.min(1, intensity * 1.6 + 0.04);
   // At high intensity, blend toward white for glow effect
-  const whiteBlend = Math.max(0, (intensity - 0.65) / 0.35);
-  const fr = r + (255 - r) * whiteBlend * 0.5;
-  const fg = g + (255 - g) * whiteBlend * 0.5;
-  const fb = b + (255 - b) * whiteBlend * 0.5;
-  const alpha = Math.min(1, intensity * 1.1);
+  const whiteBlend = Math.max(0, (boosted - 0.5) / 0.5);
+  const fr = r + (255 - r) * whiteBlend * 0.55;
+  const fg = g + (255 - g) * whiteBlend * 0.55;
+  const fb = b + (255 - b) * whiteBlend * 0.55;
+  const alpha = Math.min(1, boosted);
   return `rgba(${Math.round(fr)},${Math.round(fg)},${Math.round(fb)},${alpha.toFixed(3)})`;
 }
 
