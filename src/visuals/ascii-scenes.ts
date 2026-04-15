@@ -302,11 +302,11 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
   const aspect = 1.4;
 
   // ── Layer 0: Loss landscape contours + ML formula text ──
-  const landscape = fbm(nx * 4 + 0.5, ny * 4 + 0.5, 3);
+  const landscape = fbm(nx * 4 + 0.5, ny * 4 + 0.5, 2);
   const contour = Math.abs(Math.sin(landscape * 18));
   const isContourLine = contour < 0.08;
 
-  const activation = fbm(nx * 6 + time * 0.4, ny * 5 - time * 0.3, 3);
+  const activation = fbm(nx * 6 + time * 0.4, ny * 5 - time * 0.3, 2);
   const wave = 0.5 + 0.5 * Math.sin(nx * 15 + ny * 10 + time * 2 + activation * 6);
 
   let bgI: number;
@@ -331,9 +331,10 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
     const nd = GRID_NODES[i];
     const dx = nx - nd.x;
     const dy = (ny - nd.y) * aspect;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    if (d < minNodeDist) { minNodeDist = d; nearestNode = i; }
+    const d2 = dx * dx + dy * dy; // skip sqrt for comparison
+    if (d2 < minNodeDist) { minNodeDist = d2; nearestNode = i; }
   }
+  minNodeDist = Math.sqrt(minNodeDist); // sqrt only for the winner
 
   // Dendrite: fractal-like branches using angular sectors
   if (minNodeDist > 0.06 && minNodeDist < 0.14) {
@@ -352,14 +353,15 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
   }
 
   // ── Layer 2: Connections with forward + backward signals ──
+  // Only check nearby nodes (skip distant ones early for perf)
+  const a = GRID_NODES[nearestNode];
   for (let i = 0; i < GRID_NODES.length; i++) {
     if (i === nearestNode) continue;
-    const a = GRID_NODES[nearestNode];
     const b = GRID_NODES[i];
     const abDx = b.x - a.x;
     const abDy = b.y - a.y;
-    const abLen = Math.sqrt(abDx * abDx + abDy * abDy);
-    if (abLen > 0.35) continue;
+    const abLen = Math.abs(abDx) + Math.abs(abDy); // Manhattan for fast reject
+    if (abLen > 0.4) continue;
 
     const abLen2 = abDx * abDx + abDy * abDy;
     let t = ((nx - a.x) * abDx + (ny - a.y) * abDy) / abLen2;
@@ -615,7 +617,7 @@ export const molecularLattice: SceneFn = (nx, ny, time) => {
   const ry = cx * sa + cy * ca;
 
   // ── Layer 0: Chemistry formula background + electron density ──
-  const density = fbm(rx * 4 + time * 0.12, ry * 4 - time * 0.08, 3);
+  const density = fbm(rx * 4 + time * 0.12, ry * 4 - time * 0.08, 2);
   // Band structure: color shifts with vertical position
   const bandT = clamp01(ny * 1.2);
   let bestI = 0.09 + density * 0.12;
@@ -752,7 +754,7 @@ export const orbitalPaths: SceneFn = (nx, ny, time) => {
   const ang = Math.atan2(cy, cx);
 
   // ── Layer 0: Quantum formula background + probability field ──
-  const psi = fbm(nx * 5 + time * 0.2, ny * 5 - time * 0.15, 3);
+  const psi = fbm(nx * 5 + time * 0.2, ny * 5 - time * 0.15, 2);
   const radial = Math.exp(-nucDist * 2.2);
 
   // p-orbital lobes (figure-8 probability shape)

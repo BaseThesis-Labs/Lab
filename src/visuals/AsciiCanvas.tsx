@@ -50,7 +50,17 @@ export function AsciiCanvas({ className }: Props) {
     let raf = 0;
     let visible = true;
     let lastCalc = 0;
+    let fontReady = false;
     const startTime = performance.now();
+
+    // Wait for monospace font to load before rendering text
+    const fontCheck = async () => {
+      try {
+        await document.fonts.load('11px "JetBrains Mono Variable"');
+      } catch { /* fallback font is fine */ }
+      fontReady = true;
+    };
+    fontCheck();
 
     function resize() {
       const rect = container!.getBoundingClientRect();
@@ -95,7 +105,8 @@ export function AsciiCanvas({ className }: Props) {
     }
 
     function render(now: number) {
-      if (!visible) return;
+      if (!visible) { return; }
+      if (!fontReady) { raf = requestAnimationFrame(render); return; }
 
       const time = reduced ? 2.0 : (now - startTime) / 1000;
 
