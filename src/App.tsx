@@ -8,6 +8,7 @@ import { Nav } from './components/Nav';
 import { Products } from './components/Products';
 import { Research } from './components/Research';
 import { ScrollProgress } from './components/ScrollProgress';
+import { WorkWithUs } from './components/WorkWithUs';
 
 export default function App() {
   return (
@@ -19,9 +20,10 @@ export default function App() {
         <Hero />
         <Marquee />
         <Manifesto />
-        <Research />
         <Products />
+        <Research />
         <Fund />
+        <WorkWithUs />
       </main>
       <Footer />
     </div>

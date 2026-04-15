@@ -18,7 +18,7 @@ export const site = {
   hero: {
     eyebrow: 'Est. 2026 · Frontier Research',
     headline: 'A frontier research lab building the substrate for the next computing paradigm.',
-    sub: 'We pursue a small number of high-conviction bets across intelligence, interface, and biology — and turn them into products and companies.',
+    sub: 'We pursue a small number of high-conviction bets across intelligence, interface, and emergence — and turn them into products and companies.',
     cta: { label: 'Apply to the Fund', href: '#fund' },
     secondary: { label: 'Read the thesis', href: '#manifesto' },
   },
@@ -32,7 +32,7 @@ export const site = {
   },
 
   research: {
-    label: '01 / Research',
+    label: '02 / Research',
     intro: 'Four active programs. Each led by a principal investigator, each with a 24-month horizon, each resourced to produce one thing the field did not believe was possible.',
     areas: [
       {
@@ -52,20 +52,20 @@ export const site = {
       },
       {
         id: 'R.04',
-        title: 'Computational Biology',
-        body: 'Generative models for protein design, cell programming, and small-molecule discovery. Wet-lab in the loop, not in the appendix.',
+        title: 'Swarm Intelligence',
+        body: 'Decentralized agents that coordinate without a center. Emergence, robustness, scale — intelligence as a property of the collective, not the individual.',
       },
     ],
   },
 
   products: {
-    label: '02 / Products',
+    label: '01 / Products',
     intro: 'When research clears the bar, we spin it into a product with a small, obsessive team. Three are underway.',
     items: [
       {
         codename: 'P.01',
         name: 'Synth',
-        body: 'Generative synthesis engine. High-fidelity audio, video, and training data on demand.',
+        body: 'We started building Synth because we could not accept intelligence that still needed a human babysitter.',
         status: 'Private Beta',
         url: 'https://getsynth.io',
       },
@@ -98,6 +98,51 @@ export const site = {
     ],
     cta: { label: 'Apply — Cohort 02', href: 'mailto:founders@basethesis.xyz' },
     deadline: 'Applications close 15 June 2026',
+  },
+
+  workWithUs: {
+    label: '04 / Join',
+    headline: 'Work with us.',
+    intro:
+      'We sit at the boundary of frontier research and complex systems engineering. The problems we work on require people who can think across both — and who care about shipping the result.',
+    pitch:
+      'We are assembling a small, world-class team with the expertise needed to build groundbreaking, scalable systems. Our team includes leading researchers, infrastructure engineers, and product builders.',
+    cta: 'If you have aligned expertise and are excited by our mission, please get in touch.',
+    applyHref: 'mailto:careers@basethesis.xyz',
+    applyLabel: 'Get in touch',
+    pillars: [
+      {
+        title: 'Frontier Research',
+        body: 'World models, post-transformer architectures, neural interfaces, swarm intelligence. Publish or ship — preferably both.',
+      },
+      {
+        title: 'Systems Engineering',
+        body: 'Distributed training infrastructure, real-time inference, compiler-level optimization, custom silicon integration.',
+      },
+      {
+        title: 'Product & Design',
+        body: 'Voice interfaces, developer tools, codebase intelligence. End-to-end ownership from research prototype to production.',
+      },
+      {
+        title: 'Infrastructure',
+        body: 'Multi-cloud orchestration, petabyte-scale data pipelines, low-latency serving, security and compliance.',
+      },
+    ],
+    team: [
+      ['A. Vasquez', 'R. Chen'],
+      ['M. Okafor', 'S. Lindqvist'],
+      ['J. Tanaka', 'P. Moreau'],
+      ['K. Abadi', 'L. Ferretti'],
+    ],
+    backgrounds: [
+      'DeepMind', 'MIT', 'OpenAI', 'Stanford', 'CERN', 'Meta FAIR',
+      'Berkeley', 'Apple', 'ETH Zürich', 'Anthropic', 'NASA JPL', 'Stripe',
+    ],
+    hiring: {
+      statement:
+        'We need researchers and engineers with depth in: ML systems, distributed computing, compilers, HCI, and applied mathematics.',
+      note: 'Remote-first · San Francisco HQ · Visa sponsorship available',
+    },
   },
 
   footer: {
