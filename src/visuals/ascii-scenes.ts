@@ -43,20 +43,16 @@ function smoothstep(e0: number, e1: number, x: number): number {
 
 function clamp01(x: number): number { return x < 0 ? 0 : x > 1 ? 1 : x; }
 
-function lerpC(
-  r1: number, g1: number, b1: number,
-  r2: number, g2: number, b2: number,
-  t: number,
-): [number, number, number] {
+type C3 = readonly number[];
+
+function lerpC(a: C3, b: C3, t: number): [number, number, number] {
   const s = clamp01(t);
-  return [r1 + (r2 - r1) * s, g1 + (g2 - g1) * s, b1 + (b2 - b1) * s];
+  return [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s, a[2] + (b[2] - a[2]) * s];
 }
 
-function lerpC3(
-  c1: readonly number[], c2: readonly number[], c3: readonly number[], t: number,
-): [number, number, number] {
-  if (t < 0.5) return lerpC(c1[0], c1[1], c1[2], c2[0], c2[1], c2[2], t * 2);
-  return lerpC(c2[0], c2[1], c2[2], c3[0], c3[1], c3[2], (t - 0.5) * 2);
+function lerpC3(c1: C3, c2: C3, c3: C3, t: number): [number, number, number] {
+  if (t < 0.5) return lerpC(c1, c2, t * 2);
+  return lerpC(c2, c3, (t - 0.5) * 2);
 }
 
 const HEAVY = '@#%$&WMB';
@@ -158,7 +154,7 @@ export const dnaHelix: SceneFn = (nx, ny, time) => {
       if (protI > bestI) {
         bestI = protI;
         bestChar = d < pr * 0.3 ? '@' : (d < pr * 0.6 ? '#' : '*');
-        const [r, g, b] = lerpC(...DNA_PROTEIN, 220, 255, 180, w);
+        const [r, g, b] = lerpC(DNA_PROTEIN, [220, 255, 180], w);
         bestR = r; bestG = g; bestB = b;
       }
     } else if (d < pr * 1.5) {
@@ -222,7 +218,7 @@ export const dnaHelix: SceneFn = (nx, ny, time) => {
         if (intensity > bestI) {
           bestI = intensity;
           bestChar = wchar(w, h + (isFront ? 0 : 50));
-          const [r, g, b] = isFront ? lerpC(...DNA_STRAND, ...DNA_BRIGHT, w * 0.5) : DNA_STRAND as unknown as [number, number, number];
+          const [r, g, b] = isFront ? lerpC(DNA_STRAND, DNA_BRIGHT, w * 0.5) : DNA_STRAND as unknown as [number, number, number];
           bestR = r; bestG = g; bestB = b;
         }
       }
@@ -255,7 +251,7 @@ export const dnaHelix: SceneFn = (nx, ny, time) => {
       if (glowI > bestI) {
         bestI = glowI;
         bestChar = wchar(glow * 0.3, h);
-        const [r, g, b] = lerpC(...DNA_BG, ...DNA_STRAND, glow * 0.6);
+        const [r, g, b] = lerpC(DNA_BG, DNA_STRAND, glow * 0.6);
         bestR = r; bestG = g; bestB = b;
       }
     }
@@ -388,7 +384,7 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
         if (lineI > bestI) {
           bestI = lineI;
           bestChar = wchar(fwdPulse, h);
-          const [r, g, b] = lerpC(...NN_CYAN, ...NN_WHITE, fwdPulse);
+          const [r, g, b] = lerpC(NN_CYAN, NN_WHITE, fwdPulse);
           bestR = r; bestG = g; bestB = b;
         }
       } else if (bwdPulse > 0.1) {
@@ -396,7 +392,7 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
         if (lineI > bestI) {
           bestI = lineI;
           bestChar = '<';
-          const [r, g, b] = lerpC(...NN_BLUE, ...NN_GRAD, bwdPulse);
+          const [r, g, b] = lerpC(NN_BLUE, NN_GRAD, bwdPulse);
           bestR = r; bestG = g; bestB = b;
         }
       } else {
@@ -433,7 +429,7 @@ export const neuralNetwork: SceneFn = (nx, ny, time) => {
       if (nodeI > bestI) {
         bestI = nodeI;
         bestChar = '@';
-        const [r, g, b] = lerpC(...NN_CYAN, ...NN_WHITE, w * pulse);
+        const [r, g, b] = lerpC(NN_CYAN, NN_WHITE, w * pulse);
         bestR = r; bestG = g; bestB = b;
       }
     } else if (minNodeDist < 0.035) {
@@ -565,17 +561,17 @@ export const waveInterference: SceneFn = (nx, ny, time) => {
     const w = (boostedWave - 0.72) / 0.28;
     intensity = 0.50 + w * 0.45 + energy * 0.1;
     char = wchar(0.5 + w * 0.5, h);
-    [cr, cg, cb] = lerpC(...WV_GREEN, ...WV_BRIGHT, w);
+    [cr, cg, cb] = lerpC(WV_GREEN, WV_BRIGHT, w);
   } else if (boostedWave > 0.48) {
     const w = (boostedWave - 0.48) / 0.24;
     intensity = 0.25 + w * 0.25;
     char = wchar(0.3 + w * 0.2, h);
-    [cr, cg, cb] = lerpC(...WV_TEAL, ...WV_GREEN, w);
+    [cr, cg, cb] = lerpC(WV_TEAL, WV_GREEN, w);
   } else if (boostedWave > 0.25) {
     const w = (boostedWave - 0.25) / 0.23;
     intensity = 0.13 + w * 0.12;
     char = formulaChar(PHYS_TEXT, col, row);
-    [cr, cg, cb] = lerpC(...WV_DEEP, ...WV_TEAL, w);
+    [cr, cg, cb] = lerpC(WV_DEEP, WV_TEAL, w);
   } else {
     const w = boostedWave / 0.25;
     intensity = 0.09 + w * 0.04;
@@ -610,7 +606,6 @@ const CHEM_TEXT = 'NaCl-Fe2O3-SiO2-Cu-C60-graphene-BCC-FCC-HCP-phonon-Bragg-disl
 export const molecularLattice: SceneFn = (nx, ny, time) => {
   const col = Math.floor(nx * 80);
   const row = Math.floor(ny * 55);
-  const h = ihash(col, row);
 
   const angle = time * 0.18;
   const ca = Math.cos(angle), sa = Math.sin(angle);
@@ -696,7 +691,7 @@ export const molecularLattice: SceneFn = (nx, ny, time) => {
       if (intensity > bestI) {
         bestI = intensity;
         bestChar = dist < 0.1 ? '@' : dist < 0.18 ? '#' : '*';
-        const [cr, cg, cb] = aw > 0.5 ? lerpC(...CR_PINK, ...CR_BRIGHT, (aw - 0.5) * 2) : lerpC(...CR_ROSE, ...CR_PINK, aw * 2) as [number, number, number];
+        const [cr, cg, cb] = aw > 0.5 ? lerpC(CR_PINK, CR_BRIGHT, (aw - 0.5) * 2) : lerpC(CR_ROSE, CR_PINK, aw * 2) as [number, number, number];
         bestR = cr; bestG = cg; bestB = cb;
       }
     } else if (dist < 0.75) {
@@ -706,7 +701,7 @@ export const molecularLattice: SceneFn = (nx, ny, time) => {
       if (intensity > bestI) {
         bestI = intensity;
         bestChar = bondPulse > 0.55 ? '-' : (bondPulse > 0.3 ? ':' : '.');
-        const [cr, cg, cb] = lerpC(...CR_DEEP, ...CR_ROSE, bw * bondPulse);
+        const [cr, cg, cb] = lerpC(CR_DEEP, CR_ROSE, bw * bondPulse);
         bestR = cr; bestG = cg; bestB = cb;
       }
     }
@@ -797,7 +792,7 @@ export const orbitalPaths: SceneFn = (nx, ny, time) => {
     if (tunnelProb > bestI) {
       bestI = tunnelProb;
       bestChar = tunnelProb > 0.25 ? '*' : '.';
-      const [r, g, b] = lerpC(...QM_TUNNEL, ...QM_BRIGHT, tunnelProb);
+      const [r, g, b] = lerpC(QM_TUNNEL, QM_BRIGHT, tunnelProb);
       bestR = r; bestG = g; bestB = b;
     }
   }
@@ -851,11 +846,11 @@ export const orbitalPaths: SceneFn = (nx, ny, time) => {
       } else if (trail > 0.15) {
         cellI = shellW * trail * 0.55;
         cellChar = wchar(trail * 0.6, h);
-        [cr, cg, cb] = lerpC(...QM_VIOLET, ...QM_LAV, trail);
+        [cr, cg, cb] = lerpC(QM_VIOLET, QM_LAV, trail);
       } else {
         cellI = shellI;
         cellChar = shellW > 0.5 ? wchar(shellW * 0.35, h) : LIGHT[h % LIGHT.length];
-        [cr, cg, cb] = lerpC(...QM_VIOLET, ...QM_LAV, shellW * 0.5);
+        [cr, cg, cb] = lerpC(QM_VIOLET, QM_LAV, shellW * 0.5);
       }
 
       // Spin indicator near electron
@@ -881,7 +876,7 @@ export const orbitalPaths: SceneFn = (nx, ny, time) => {
   // ── Layer 4: Nucleus ──
   if (nucDist < 0.04) {
     const w = 1 - nucDist / 0.04;
-    const [r, g, b] = lerpC(...QM_NUCLEUS, 255, 255, 255, w * 0.6);
+    const [r, g, b] = lerpC(QM_NUCLEUS, [255, 255, 255], w * 0.6);
     return { char: w > 0.5 ? '@' : '#', intensity: 0.85 + w * 0.15, r, g, b };
   }
   if (nucDist < 0.07) {
