@@ -9,8 +9,8 @@ void main() {
 }
 `;
 
-// Raymarched torus knot — different geometry from the hero's gyroid sphere.
-// Cool blue/teal accent instead of the hero's rose. Wireframe-like surface.
+// Raymarched gyroid-inside-torus — same lattice texture as the hero's gyroid sphere
+// but shaped as a torus instead. Cool teal accent vs hero's rose.
 const FRAG = `
 precision highp float;
 
@@ -19,46 +19,51 @@ uniform float u_time;
 uniform vec2  u_mouse;
 uniform vec3  u_accent;
 
-#define MAX_STEPS 80
-#define MAX_DIST  16.0
-#define SURF_DIST 0.002
+#define MAX_STEPS 72
+#define MAX_DIST  14.0
+#define SURF_DIST 0.0015
 
 mat2 rot(float a) { float s = sin(a), c = cos(a); return mat2(c, -s, s, c); }
 
-// Torus knot SDF — a (2,3) trefoil knot wrapped around a torus
-float sdTorusKnot(vec3 p) {
-  // Rotate for animation
-  p.xz *= rot(u_time * 0.08);
-  p.yz *= rot(u_time * 0.05);
+// Gyroid SDF — same formula as the hero
+float sdGyroid(vec3 p, float scale, float thickness, float bias) {
+  p *= scale;
+  float g = dot(sin(p), cos(p.yzx)) - bias;
+  return (abs(g) - thickness) / scale;
+}
 
-  float r1 = 1.0;   // major radius
-  float r2 = 0.35;   // minor radius (tube thickness)
+// Torus SDF
+float sdTorus(vec3 p, float R, float r) {
+  vec2 q = vec2(length(p.xz) - R, p.y);
+  return length(q) - r;
+}
 
-  // Knot parameters: p=2, q=3 trefoil
-  float phi = atan(p.z, p.x);
-  float knotAngle = phi * 1.5; // q/p ratio
+float map(vec3 p) {
+  // Offset to the left (opposite of hero which goes right)
+  p -= vec3(-0.85, 0.1, 0.0);
 
-  // Point on the knot centerline
-  vec3 c = vec3(
-    (r1 + r2 * 0.5 * cos(knotAngle)) * cos(phi),
-    r2 * 0.5 * sin(knotAngle),
-    (r1 + r2 * 0.5 * cos(knotAngle)) * sin(phi)
-  );
+  // Slow rotation
+  p.xz *= rot(u_time * 0.09);
+  p.yz *= rot(u_time * 0.055);
 
-  float d = length(p - c) - 0.12;
+  // Animated bias morphs the lattice (same as hero)
+  float bias = 0.25 * sin(u_time * 0.18);
 
-  // Add a second pass for the torus base (faint)
-  float torusDist = length(vec2(length(p.xz) - r1, p.y)) - 0.06;
+  // Gyroid lattice — thin walls, see-through structure
+  float g = sdGyroid(p, 3.4, 0.02, bias);
 
-  return min(d, torusDist * 1.5);
+  // Bound by torus instead of sphere
+  float t = sdTorus(p, 0.85, 0.45);
+
+  return max(g, t);
 }
 
 vec3 calcNormal(vec3 p) {
-  vec2 e = vec2(0.002, 0.0);
+  vec2 e = vec2(0.0015, 0.0);
   return normalize(vec3(
-    sdTorusKnot(p + e.xyy) - sdTorusKnot(p - e.xyy),
-    sdTorusKnot(p + e.yxy) - sdTorusKnot(p - e.yxy),
-    sdTorusKnot(p + e.yyx) - sdTorusKnot(p - e.yyx)
+    map(p + e.xyy) - map(p - e.xyy),
+    map(p + e.yxy) - map(p - e.yxy),
+    map(p + e.yyx) - map(p - e.yyx)
   ));
 }
 
@@ -66,10 +71,10 @@ float raymarch(vec3 ro, vec3 rd, out vec3 hitPos) {
   float t = 0.0;
   for (int i = 0; i < MAX_STEPS; i++) {
     vec3 p = ro + rd * t;
-    float d = sdTorusKnot(p);
+    float d = map(p);
     if (d < SURF_DIST) { hitPos = p; return t; }
     if (t > MAX_DIST) break;
-    t += d * 0.85;
+    t += d * 0.9;
   }
   hitPos = vec3(0.0);
   return -1.0;
@@ -84,16 +89,16 @@ float hash12(vec2 p) {
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / min(u_res.x, u_res.y);
 
-  vec2 m = (u_mouse - 0.5) * 0.12;
+  vec2 m = (u_mouse - 0.5) * 0.15;
 
-  vec3 ro = vec3(m.x, m.y * 0.4, 3.8);
-  vec3 rd = normalize(vec3(uv, -1.5));
+  vec3 ro = vec3(m.x, m.y * 0.5, 3.6);
+  vec3 rd = normalize(vec3(uv, -1.45));
 
-  // Background: subtle radial glow
-  vec2 glowCenter = vec2(-0.3, 0.05);
-  float gd = length((uv - glowCenter) * vec2(1.0, 1.1));
-  vec3 bg = vec3(0.018, 0.020, 0.025);
-  bg += u_accent * 0.08 * smoothstep(0.9, 0.0, gd);
+  // Background with glow behind object (left side)
+  vec2 glowCenter = vec2(-0.5, 0.06);
+  float gd = length((uv - glowCenter) * vec2(1.1, 1.0));
+  vec3 bg = vec3(0.020, 0.022, 0.024);
+  bg += u_accent * 0.10 * smoothstep(0.95, 0.0, gd);
 
   vec3 col = bg;
 
@@ -104,52 +109,41 @@ void main() {
     vec3 n = calcNormal(hitPos);
     vec3 v = -rd;
 
-    // Lighting
-    vec3 L1 = normalize(vec3(0.5, 0.8, 0.4));
+    // Soft key light
+    vec3 L1 = normalize(vec3(0.4, 0.7, 0.5));
     float diff = max(dot(n, L1), 0.0);
 
-    // Fresnel rim
-    float fres = pow(1.0 - max(dot(n, v), 0.0), 3.5);
-
-    // Wireframe-like surface pattern
-    vec3 ap = hitPos;
-    ap.xz *= rot(u_time * 0.08);
-    ap.yz *= rot(u_time * 0.05);
-    float phi = atan(ap.z, ap.x);
-    float wireU = fract(phi * 6.0);
-    float wireV = fract(ap.y * 8.0 + phi * 3.0);
-    float wire = smoothstep(0.04, 0.0, min(wireU, 1.0 - wireU))
-               + smoothstep(0.04, 0.0, min(wireV, 1.0 - wireV));
-    wire = min(wire, 1.0);
+    // Fresnel rim — same as hero
+    float fres = pow(1.0 - max(dot(n, v), 0.0), 3.0);
 
     // Material
-    vec3 base = vec3(0.04, 0.05, 0.07);
-    base += vec3(0.10) * diff;
+    vec3 base = vec3(0.085, 0.090, 0.095);
+    base += vec3(0.16) * diff;
 
-    // Accent edge + wireframe
-    vec3 rim = u_accent * fres * 1.2;
-    base += u_accent * wire * 0.25;
+    // Accent rim
+    vec3 rim = u_accent * fres * 1.45;
 
     // Specular
     vec3 H = normalize(L1 + v);
-    float spec = pow(max(dot(n, H), 0.0), 32.0) * 0.4;
+    float spec = pow(max(dot(n, H), 0.0), 26.0) * 0.45;
     base += vec3(spec);
 
-    base += u_accent * diff * 0.08;
+    // Accent tint on lit facets
+    base += u_accent * diff * 0.10;
 
     col = base + rim;
 
     // Distance fog
-    float fog = 1.0 - exp(-t * 0.18);
-    col = mix(col, bg, fog * 0.65);
+    float fog = 1.0 - exp(-t * 0.22);
+    col = mix(col, bg, fog * 0.7);
   }
 
   // Vignette
-  float r = length(uv * vec2(1.2, 1.0));
-  col *= smoothstep(1.7, 0.3, r);
+  float r = length(uv * vec2(1.3, 1.0));
+  col *= smoothstep(1.65, 0.3, r);
 
   // Dither
-  col += (hash12(gl_FragCoord.xy) - 0.5) * 0.008;
+  col += (hash12(gl_FragCoord.xy) - 0.5) * 0.010;
 
   gl_FragColor = vec4(col, 1.0);
 }
