@@ -8,42 +8,38 @@ export function WorkWithUs() {
   const s = site.workWithUs;
 
   return (
-    <section id="join" className="relative py-28 md:py-36">
-      <div className="container-x">
+    <section id="join" className="relative overflow-hidden py-28 md:py-36">
+      {/* Shader as section background — same pattern as Hero */}
+      <div className="absolute inset-0">
+        <TorusShader />
+        {/* Fade left so text column sits on clean bg */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-bg via-ink-bg/80 to-transparent" />
+        {/* Fade top + bottom into surrounding sections */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-bg via-transparent to-ink-bg" />
+      </div>
+
+      <div className="container-x relative">
         <SectionLabel index={s.label} title={s.headline} />
 
-        {/* ── Top split: text left / shader right ── */}
-        <div className="mt-14 grid grid-cols-1 gap-0 md:grid-cols-2">
-          {/* Text column */}
-          <RevealOnScroll>
-            <div className="pr-0 md:pr-12">
-              <p className="font-sans text-lg leading-[1.6] text-ink-dim md:text-xl">
-                {s.intro}
-              </p>
-              <p className="mt-6 font-sans text-lg font-medium leading-[1.6] text-ink-text md:text-xl">
-                {s.pitch}
-              </p>
-              <p className="mt-6 font-sans text-base leading-relaxed text-ink-dim">
-                {s.cta}
-              </p>
-              <div className="mt-8">
-                <Button href={s.applyHref} variant="primary">
-                  {s.applyLabel}
-                </Button>
-              </div>
+        {/* ── Text content (left-aligned, shader visible behind on right) ── */}
+        <RevealOnScroll>
+          <div className="mt-14 max-w-xl">
+            <p className="font-sans text-lg leading-[1.6] text-ink-dim md:text-xl">
+              {s.intro}
+            </p>
+            <p className="mt-6 font-sans text-lg font-medium leading-[1.6] text-ink-text md:text-xl">
+              {s.pitch}
+            </p>
+            <p className="mt-6 font-sans text-base leading-relaxed text-ink-dim">
+              {s.cta}
+            </p>
+            <div className="mt-8">
+              <Button href={s.applyHref} variant="primary">
+                {s.applyLabel}
+              </Button>
             </div>
-          </RevealOnScroll>
-
-          {/* Shader visual */}
-          <RevealOnScroll delay={0.1}>
-            <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-sm md:mt-0">
-              <TorusShader />
-              {/* Gradient overlays matching hero pattern */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-bg/40 to-transparent" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-bg via-transparent to-ink-bg/30" />
-            </div>
-          </RevealOnScroll>
-        </div>
+          </div>
+        </RevealOnScroll>
 
         {/* ── Focus pillars ── */}
         <RevealOnScroll>
