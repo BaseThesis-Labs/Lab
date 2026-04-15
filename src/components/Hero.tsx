@@ -30,11 +30,9 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.1, ease: [0.2, 0.7, 0.2, 1] }}
             className="text-balance font-sans text-display font-medium text-ink-text"
           >
-            {site.hero.headline.split(' substrate ').map((chunk, i, arr) =>
-              i < arr.length - 1 ? (
-                <span key={i}>
-                  {chunk} <em className="font-serif italic text-accent">substrate</em>{' '}
-                </span>
+            {site.hero.headline.split(/(frontier|intelligence)/g).map((chunk, i) =>
+              chunk === 'frontier' || chunk === 'intelligence' ? (
+                <em key={i} className="font-serif italic text-accent">{chunk}</em>
               ) : (
                 <span key={i}>{chunk}</span>
               ),
@@ -72,7 +70,7 @@ export function Hero() {
           className="mt-14 grid grid-cols-2 gap-4 border-t border-ink-border pt-6 font-mono text-[11px] uppercase tracking-micro text-ink-muted md:grid-cols-4"
         >
           <HeroMeta k="Index" v="β.001" />
-          <HeroMeta k="Status" v={<span className="text-accent">Cohort 02 Open</span>} />
+          <HeroMeta k="Status" v={<span className="text-accent">Hiring</span>} />
           <HeroMeta k="Node" v={site.brand.coords} />
           <HeroMeta k="Epoch" v={site.brand.year} />
         </motion.div>

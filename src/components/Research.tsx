@@ -13,23 +13,19 @@ export function Research() {
           intro={site.research.intro}
         />
 
-        <div className="mt-14 grid gap-0 md:grid-cols-12">
+        <div className="mt-14 grid grid-cols-1 gap-0 md:grid-cols-2">
           {/* ASCII art — left column */}
-          <RevealOnScroll className="md:col-span-6">
-            <div className="aspect-[16/10] w-full md:aspect-auto md:h-full md:min-h-[540px]">
+          <div className="relative min-h-[400px]">
+            <div className="absolute inset-0 overflow-hidden">
               <AsciiCanvas />
             </div>
-          </RevealOnScroll>
+          </div>
 
-          {/* Research cards — right column */}
-          <div className="md:col-span-6">
+          {/* Research cards — right column, 2x2 grid */}
+          <div className="grid grid-cols-2 gap-px bg-ink-border">
             {site.research.areas.map((area, i) => (
-              <RevealOnScroll key={area.id} delay={i * 0.05}>
-                <article
-                  className={`group relative px-0 py-8 md:px-10 md:py-10 ${
-                    i < site.research.areas.length - 1 ? 'border-b border-ink-border' : ''
-                  }`}
-                >
+              <RevealOnScroll key={area.id} delay={i * 0.05} className="bg-ink-bg">
+                <article className="group relative h-full p-6 md:p-8">
                   <header className="flex items-center justify-between">
                     <span className="micro-label text-accent">{area.id}</span>
                     <span className="font-mono text-[11px] uppercase tracking-micro text-ink-muted">
@@ -37,15 +33,15 @@ export function Research() {
                     </span>
                   </header>
 
-                  <h3 className="mt-6 font-sans text-2xl tracking-tight text-ink-text md:text-3xl">
+                  <h3 className="mt-5 font-sans text-lg tracking-tight text-ink-text md:text-xl">
                     {area.title}
                   </h3>
-                  <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-ink-dim">
+                  <p className="mt-3 font-sans text-sm leading-relaxed text-ink-dim">
                     {area.body}
                   </p>
 
-                  <div className="mt-8 flex items-center justify-between border-t border-ink-border pt-4">
-                    <span className="font-mono text-[11px] uppercase tracking-micro text-ink-muted">
+                  <div className="mt-6 flex items-center justify-between border-t border-ink-border pt-3">
+                    <span className="font-mono text-[10px] uppercase tracking-micro text-ink-muted">
                       Program lead · TBA
                     </span>
                     <span className="text-ink-muted transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent">

@@ -87,7 +87,7 @@ export const site = {
   },
 
   fund: {
-    label: '03 / Thesis',
+    label: '03 / Fund',
     headline: 'Invest. Transform. Scale.',
     pitch:
       'BaseThesis is an AI-driven value creation company. We invest in profitable, cash-flow generating businesses — often in traditional or under-digitized sectors — and transform them end-to-end using frontier AI.',

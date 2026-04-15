@@ -7,12 +7,12 @@ interface Item {
 }
 
 const items: Item[] = [
-  { glyph: '◆', text: 'COHORT 02 — Applications open · Deadline 15 June 2026', accent: true },
-  { glyph: '∮', text: 'Preprint · Meridian-7B: Post-Transformer Reasoning at Scale' },
-  { glyph: '→', text: 'Hiring · Research Engineer (Systems) · Wet-Lab Lead · Fellow, Neural Interfaces' },
-  { glyph: '⚡', text: 'Helix · Research Preview — request access' },
-  { glyph: '◇', text: 'Residency 02 · 12 weeks · San Francisco' },
-  { glyph: '✦', text: 'New paper · World Models as an Economic Training Substrate' },
+  { glyph: '◆', text: 'Now Hiring — Researchers & Engineers · Bangalore, India', accent: true },
+  { glyph: '⚡', text: 'Synth · Private Beta — AI employee for small businesses' },
+  { glyph: '→', text: 'Investing in & transforming businesses with frontier AI' },
+  { glyph: '◇', text: 'Active deal · Financial services (accounting & legal)' },
+  { glyph: '✦', text: 'AI Research & Labs · Deploying intelligence end to end' },
+  { glyph: '∮', text: 'Model · Identify → Invest → Transform → Scale' },
 ];
 
 function Row({ ariaHide }: { ariaHide?: boolean }) {

@@ -12,10 +12,12 @@ export function WorkWithUs() {
       {/* Shader as section background — same pattern as Hero */}
       <div className="absolute inset-0">
         <TorusShader />
-        {/* Fade left so text column sits on clean bg */}
+        {/* Fade left so text column sits on clean bg — same as Hero */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-bg via-ink-bg/80 to-transparent" />
-        {/* Fade top + bottom into surrounding sections */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-bg via-transparent to-ink-bg" />
+        {/* Fade bottom only — same as Hero */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink-bg" />
+        {/* Grain texture — same as Hero */}
+        <div className="pointer-events-none absolute inset-0 bg-grain opacity-[0.35]" />
       </div>
 
       <div className="container-x relative">
@@ -58,44 +60,6 @@ export function WorkWithUs() {
           </div>
         </RevealOnScroll>
 
-        {/* ── Team + Backgrounds ── */}
-        <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-2">
-          {/* Team grid */}
-          <RevealOnScroll>
-            <div>
-              <div className="micro-label mb-6">Team</div>
-              <div className="space-y-0 border-t border-ink-border">
-                {s.team.map((row, i) => (
-                  <div
-                    key={i}
-                    className="grid grid-cols-2 gap-4 border-b border-ink-border py-3 font-sans text-sm text-ink-text"
-                  >
-                    {row.map((name) => (
-                      <span key={name}>{name}</span>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </RevealOnScroll>
-
-          {/* Backgrounds */}
-          <RevealOnScroll delay={0.05}>
-            <div>
-              <div className="micro-label mb-6">Background</div>
-              <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
-                {s.backgrounds.map((name) => (
-                  <div
-                    key={name}
-                    className="flex items-center justify-center rounded-sm border border-ink-border bg-ink-surface/30 px-3 py-3 font-mono text-[10px] uppercase tracking-micro text-ink-muted transition-colors hover:border-ink-muted hover:text-ink-dim"
-                  >
-                    {name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </RevealOnScroll>
-        </div>
 
         {/* ── Hiring CTA band ── */}
         <RevealOnScroll>

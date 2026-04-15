@@ -98,7 +98,7 @@ void main() {
   vec2 glowCenter = vec2(-0.5, 0.06);
   float gd = length((uv - glowCenter) * vec2(1.1, 1.0));
   vec3 bg = vec3(0.020, 0.022, 0.024);
-  bg += u_accent * 0.10 * smoothstep(0.95, 0.0, gd);
+  bg += u_accent * 0.18 * smoothstep(0.95, 0.0, gd);
 
   vec3 col = bg;
 
@@ -109,38 +109,43 @@ void main() {
     vec3 n = calcNormal(hitPos);
     vec3 v = -rd;
 
-    // Soft key light
+    // Stronger key light
     vec3 L1 = normalize(vec3(0.4, 0.7, 0.5));
     float diff = max(dot(n, L1), 0.0);
 
-    // Fresnel rim — same as hero
-    float fres = pow(1.0 - max(dot(n, v), 0.0), 3.0);
+    // Second fill light from opposite side
+    vec3 L2 = normalize(vec3(-0.5, 0.3, -0.4));
+    float diff2 = max(dot(n, L2), 0.0) * 0.4;
 
-    // Material
-    vec3 base = vec3(0.085, 0.090, 0.095);
-    base += vec3(0.16) * diff;
+    // Fresnel rim — stronger
+    float fres = pow(1.0 - max(dot(n, v), 0.0), 2.5);
 
-    // Accent rim
-    vec3 rim = u_accent * fres * 1.45;
+    // Brighter material
+    vec3 base = vec3(0.12, 0.13, 0.14);
+    base += vec3(0.22) * diff;
+    base += vec3(0.08) * diff2;
 
-    // Specular
+    // Stronger accent rim
+    vec3 rim = u_accent * fres * 2.0;
+
+    // Specular — brighter
     vec3 H = normalize(L1 + v);
-    float spec = pow(max(dot(n, H), 0.0), 26.0) * 0.45;
+    float spec = pow(max(dot(n, H), 0.0), 22.0) * 0.6;
     base += vec3(spec);
 
-    // Accent tint on lit facets
-    base += u_accent * diff * 0.10;
+    // Stronger accent tint on lit facets
+    base += u_accent * diff * 0.18;
 
     col = base + rim;
 
-    // Distance fog
-    float fog = 1.0 - exp(-t * 0.22);
-    col = mix(col, bg, fog * 0.7);
+    // Softer fog (less dimming)
+    float fog = 1.0 - exp(-t * 0.16);
+    col = mix(col, bg, fog * 0.5);
   }
 
-  // Vignette
-  float r = length(uv * vec2(1.3, 1.0));
-  col *= smoothstep(1.65, 0.3, r);
+  // Softer vignette
+  float r = length(uv * vec2(1.2, 0.9));
+  col *= smoothstep(1.8, 0.3, r);
 
   // Dither
   col += (hash12(gl_FragCoord.xy) - 0.5) * 0.010;
