@@ -184,6 +184,13 @@ export const site = {
           { label: 'LinkedIn', href: 'https://www.linkedin.com/company/basethesis-labs/' },
         ],
       },
+      {
+        title: 'Legal',
+        links: [
+          { label: 'Privacy', href: '/privacy' },
+          { label: 'Terms', href: '/terms' },
+        ],
+      },
     ],
   },
 };

@@ -5,7 +5,7 @@ export function Footer() {
     <footer id="contact" className="relative border-t border-ink-border pt-20 pb-12">
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
+          <div className="md:col-span-4">
             <div className="flex items-center gap-2 font-mono text-[14px] font-semibold tracking-tight">
               <span className="text-ink-text">{site.brand.wordmark}</span>
               <span className="text-ink-muted">/ {site.brand.suffix}</span>
