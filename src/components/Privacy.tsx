@@ -28,8 +28,8 @@ export function Privacy() {
             </p>
             <p>
               We have written this policy to be direct and specific. If anything is unclear, email us at{' '}
-              <a className="text-accent underline decoration-ink-border underline-offset-4 hover:decoration-accent" href="mailto:privacy@basethesis.com">
-                privacy@basethesis.com
+              <a className="text-accent underline decoration-ink-border underline-offset-4 hover:decoration-accent" href="mailto:engg@basethesis.com">
+                engg@basethesis.com
               </a>
               .
             </p>
@@ -42,7 +42,7 @@ export function Privacy() {
               requests — contact us at:
             </p>
             <Ul>
-              <li>Email: <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link></li>
+              <li>Email: <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link></li>
               <li>General support: <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link></li>
               <li>Website: <Link href="https://getsynth.io">https://getsynth.io</Link></li>
             </Ul>
@@ -163,7 +163,7 @@ export function Privacy() {
               for any purpose other than the ones described below.
             </p>
             <Ul>
-              <li><Strong>Service providers (sub-processors)</Strong> who operate on our behalf under confidentiality and data-protection obligations: cloud infrastructure (for example, AWS or GCP), AI model providers (for example, Anthropic), payment processors (for example, Razorpay), transactional email and messaging providers, and error-monitoring tools. A current list is available on request at <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link>.</li>
+              <li><Strong>Service providers (sub-processors)</Strong> who operate on our behalf under confidentiality and data-protection obligations: cloud infrastructure (for example, AWS or GCP), AI model providers (for example, Anthropic), payment processors (for example, Razorpay), transactional email and messaging providers, and error-monitoring tools. A current list is available on request at <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>.</li>
               <li><Strong>Legal and safety</Strong> — where we have a good-faith belief that disclosure is required to comply with law, legal process, or a lawful government request, or to protect the rights, property, or safety of our users, BaseThesis, or the public.</li>
               <li><Strong>Business transfer</Strong> — if BaseThesis is involved in a merger, acquisition, or sale of assets, we will obtain your explicit prior consent before any transfer of your Google user data.</li>
             </Ul>
@@ -199,7 +199,7 @@ export function Privacy() {
             </Ul>
             <p>
               <Strong>Right to deletion.</Strong> You can delete your account and all associated data at
-              any time by emailing <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link>{' '}
+              any time by emailing <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>{' '}
               or via the in-product account settings. We will complete deletion of live data within 30
               days of your request, and of backups within the backup retention window above, except where
               we are required by law to retain specific records (for example, tax invoices).
@@ -234,7 +234,7 @@ export function Privacy() {
             </p>
             <p>
               To exercise any of these rights, email{' '}
-              <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link>. We will respond
+              <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>. We will respond
               within 30 days.
             </p>
           </Section>
@@ -253,7 +253,7 @@ export function Privacy() {
             <p>
               Synth is not directed to children under 13 (or the minimum age in your jurisdiction). We do
               not knowingly collect personal data from children. If you believe a child has provided us
-              data, contact <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link> and
+              data, contact <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link> and
               we will delete it.
             </p>
           </Section>
@@ -279,7 +279,7 @@ export function Privacy() {
           <Section n="12" title="Contact">
             <p>
               For any privacy question or request, contact{' '}
-              <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link>. For general
+              <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>. For general
               support, <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>.
             </p>
           </Section>

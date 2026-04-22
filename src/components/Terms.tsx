@@ -182,7 +182,7 @@ export function Terms() {
               </li>
               <li><Strong>Payment processor.</Strong> Payments are processed by third-party processors such as Razorpay. By subscribing, you agree to the processor's terms as well as ours.</li>
               <li><Strong>Taxes.</Strong> Prices are exclusive of GST, VAT, and other applicable taxes, which will be added where required by law.</li>
-              <li><Strong>Refunds.</Strong> Except where required by law, fees paid are non-refundable. If you believe you have been charged in error, contact <Link href="mailto:billing@basethesis.com">billing@basethesis.com</Link> within 14 days.</li>
+              <li><Strong>Refunds.</Strong> Except where required by law, fees paid are non-refundable. If you believe you have been charged in error, contact <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link> within 14 days.</li>
               <li><Strong>Usage-based charges.</Strong> If your plan includes usage-based components (for example, AI credits), you agree to pay the applicable charges as they accrue. We will notify you when you approach plan limits.</li>
               <li><Strong>Cancellation.</Strong> You may cancel at any time through your account settings or by writing to <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link>. Cancellation takes effect at the end of the current billing period; prior charges are non-refundable except as required by law.</li>
             </Ul>
@@ -220,7 +220,7 @@ export function Terms() {
             <p>
               We may identify you as a Synth user or customer in our promotional materials, including by
               displaying your name or logo. If you do not want us to do so, email{' '}
-              <Link href="mailto:privacy@basethesis.com">privacy@basethesis.com</Link> and we will
+              <Link href="mailto:engg@basethesis.com">engg@basethesis.com</Link> and we will
               promptly stop.
             </p>
           </Section>
