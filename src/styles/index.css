@@ -63,6 +63,32 @@
   }
 }
 
+/* Essay typography — KaTeX inherits from accent palette and stays legible on dark. */
+.katex {
+  color: #EDEDED;
+  font-size: 1em;
+}
+.katex-display {
+  margin: 0 !important;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.essay-prose p + p {
+  margin-top: 1.4em;
+}
+.essay-prose .drop-cap::first-letter {
+  font-family: 'Fraunces Variable', ui-serif, Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  float: left;
+  font-size: 4.4em;
+  line-height: 0.85;
+  padding-right: 0.12em;
+  padding-top: 0.06em;
+  color: #E8D9BE;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

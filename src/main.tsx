@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/geist';
 import '@fontsource-variable/jetbrains-mono';
 import '@fontsource-variable/fraunces';
+import 'katex/dist/katex.min.css';
 import './styles/index.css';
 import App from './App';
 

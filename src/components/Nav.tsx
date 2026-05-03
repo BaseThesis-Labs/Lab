@@ -18,7 +18,7 @@ export function Nav() {
       }`}
     >
       <div className="container-x flex h-14 items-center justify-between">
-        <a href="#top" className="group flex items-center gap-2 font-mono text-[13px] font-semibold tracking-tight">
+        <a href="/" className="group flex items-center gap-2 font-mono text-[13px] font-semibold tracking-tight">
           <span className="text-ink-text">{site.brand.wordmark}</span>
           <span className="text-ink-muted">/ {site.brand.suffix}</span>
         </a>
@@ -36,7 +36,7 @@ export function Nav() {
         </nav>
 
         <a
-          href="#fund"
+          href="/#fund"
           className="group relative hidden items-stretch overflow-hidden rounded-sm border border-ink-text/70 font-mono text-[11px] uppercase tracking-micro text-ink-text transition-colors duration-300 hover:text-ink-bg md:inline-flex"
         >
           <span

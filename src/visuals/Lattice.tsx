@@ -123,9 +123,9 @@ export function Lattice({ className }: Props) {
         })}
 
       <g fontFamily="JetBrains Mono, monospace" fontSize="9" fill="#737373">
-        <text x="20" y="20">./atlas · design</text>
-        <text x={W - 140} y="20">aa=MVLKQGIRS… · n=54</text>
-        <text x="20" y={H - 10}>binding=0.82 · fold=∆∆G −9.1</text>
+        <text x="20" y="20">./moltcode · xform</text>
+        <text x={W - 140} y="20">files=2,148 · langs=4</text>
+        <text x="20" y={H - 10}>diff=+4,120 −6,402 · pass=0.98</text>
       </g>
     </svg>
   );

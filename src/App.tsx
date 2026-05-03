@@ -12,6 +12,8 @@ import { Research } from './components/Research';
 import { ScrollProgress } from './components/ScrollProgress';
 import { Terms } from './components/Terms';
 import { WorkWithUs } from './components/WorkWithUs';
+import { EssaysIndex } from './components/EssaysIndex';
+import { NonCompositionality } from './components/essays/NonCompositionality';
 
 function normalize(path: string) {
   return path.replace(/\/+$/, '').toLowerCase() || '/';
@@ -32,6 +34,9 @@ export default function App() {
 
   if (path === '/privacy') return <Privacy />;
   if (path === '/terms') return <Terms />;
+  if (path === '/essays') return <EssaysIndex />;
+  if (path === '/essays/non-compositionality-of-intelligence')
+    return <NonCompositionality />;
 
   return (
     <div className="relative">

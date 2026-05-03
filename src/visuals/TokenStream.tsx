@@ -92,9 +92,9 @@ export function TokenStream({ className }: Props) {
 
       {/* meta */}
       <g fontFamily="JetBrains Mono, monospace" fontSize="9" fill="#737373">
-        <text x="20" y="20">./meridian-7b · eval</text>
-        <text x={W - 110} y="20">ctx=1M · heads=32</text>
-        <text x="20" y={H - 10}>attn_sparsity=0.94</text>
+        <text x="20" y="20">./koecode · parse</text>
+        <text x={W - 110} y="20">utt=voice.wav · n=47</text>
+        <text x="20" y={H - 10}>tok/s=220 · wer=1.2%</text>
       </g>
     </svg>
   );

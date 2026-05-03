@@ -94,7 +94,7 @@ export function HelixViz({ className }: Props) {
 
       {/* frame ticks */}
       <g fontFamily="JetBrains Mono, monospace" fontSize="9" fill="#737373">
-        <text x="10" y="18">./helix · runtime</text>
+        <text x="10" y="18">./synth · engine</text>
         <text x={W - 86} y="18">step=00240</text>
         <text x="10" y={H - 10}>∂t=0.016 · dim=256</text>
       </g>

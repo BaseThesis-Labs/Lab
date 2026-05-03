@@ -9,10 +9,11 @@ export const site = {
   },
 
   nav: [
-    { label: 'Research', href: '#research' },
-    { label: 'Products', href: '#products' },
-    { label: 'Fund', href: '#fund' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Research', href: '/#research' },
+    { label: 'Products', href: '/#products' },
+    { label: 'Essays', href: '/essays' },
+    { label: 'Fund', href: '/#fund' },
+    { label: 'Contact', href: '/#contact' },
   ],
 
   hero: {

@@ -97,7 +97,7 @@ export function MoleculeGraph({ className, seed = 5.1 }: Props) {
         })}
 
       <text x="10" y={H - 10} fontFamily="JetBrains Mono, monospace" fontSize="8" fill="#737373">
-        SEQ:atlas-0042 · ΔG=−18.4
+        agents=256 · coherence=0.78
       </text>
     </svg>
   );
